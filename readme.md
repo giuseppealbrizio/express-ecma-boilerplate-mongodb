@@ -1,6 +1,6 @@
 # Express ECMA Boilerplate With MongoDB
 
-#### This is a minimalistic express boilerplate with EICMA features enabled, MongoDB configured and ready to be multi-stage containerized
+#### This is a minimalistic express boilerplate with EICMA features enabled, MongoDB configured, Passport basic authentication, and ready to be multi-stage containerized
 
 #### App entry point is located in `./src/app.js`
 
