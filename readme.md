@@ -1,18 +1,45 @@
 # Express ECMA Boilerplate With MongoDB
 
-#### This is a minimalistic express boilerplate with EICMA features enabled, MongoDB configured, Passport basic authentication, and ready to be multi-stage containerized
+This is a minimalistic express boilerplate with the following features:
 
-#### App entry point is located in `./src/app.js`
+> - `ECMA` features enabled
+> - `Prettier` to prettify the code
+> - `MongoDB` ready to go configuration
+> - `Passport` local authentication strategy and middleware to restrict access.
+> - `Error Handling` middleware and helpers globally configured
+> - `Multer File Uploading` middleware configured to use in routes as middleware
+> - `Axios` globally configured in `./src/utils/api.utils.js`
+> - `Swagger` documentation reachable at `http://localhost:3000/api/v1/docs`
+> - `Docker` ready configuration with multi-stage option
+> - `Best practices` in naming files
 
-#### The server config entrypoint is located in `./src/bin/www.js`
+## Basic Information
 
-#### Babel config is located at `./.babel.rc`
+> App entry point is located in `./src/app.js`
 
-#### Prettier configuration is located at `./.prettierrc.js`
+> Server config entrypoint is located in `./src/bin/www.js`
 
-#### Docker config is located at `./Dockerfile`
+> Babel config to transpile the code is located at `./.babel.rc`
 
-There are some basic packages installed and configured as dotenv, helmet, express-session, etc
+> Prettier config is located at `./.prettierrc.js`
+
+> Passport config is located at `./src/config/passport.config.js`
+>
+> - Local Strategy is defined in `./src/services/passport/passport-local.service.js`
+
+> Mongo config is located at `./src/config/database.config.js`
+>
+> - Models definition are located in `./src/services`
+
+> Error Handling middleware is located at `./src/middlewares/errorHandler.middleware.js`
+>
+> - You can configure as many errors you need in `./src/helpers/errors.helper.js`
+
+> Swagger config file is located at `./swagger.json`
+>
+> - Swagger routes are defined in `./src/routes/swagger.route.js`
+
+> Docker config is located at `./Dockerfile`
 
 ## Folder Structure
 
@@ -22,10 +49,11 @@ There are some basic packages installed and configured as dotenv, helmet, expres
 > - **`config/`** - here you find all the configuration files (database, passport, etc...)
 > - **`constants/`** - here you can put all you global constants
 > - **`controllers/`** - all the controllers to use in routes that interact with services
-> - **`helpers/`** - some helpers function i.e. an error helper that return json everytime an error comes in controllers
+> - **`helpers/`** - some helpers func i.e. an error helper that returns json everytime an error comes in
+> - **`middlewares/`** - here you can find all the custom middlewares
 > - **`models/`** - database model definition
 > - **`routes/`** - here you find all the defined routes of the app
-> - **`services/`** - here we store all the services; i.e. here we define the methods to manipulate a db model entity
+> - **`services/`** - here we store all the services; i.e. here we define methods to manipulate a db model entity
 > - **`utils/`** - a folder containing some utilities function to be reused in the code (i.e. axios global configuration)
 
 ## Getting Started

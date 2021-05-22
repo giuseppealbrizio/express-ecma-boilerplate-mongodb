@@ -32,7 +32,7 @@ import passport from 'passport';
  */
 
 /**
- * Global variables definition
+ * Global env variables definition
  */
 dotenv.config();
 
@@ -50,6 +50,10 @@ MongoDB().then((mongoose) => {
 import indexRouter from './routes/index.route';
 import authRouter from './routes/auth.route';
 import userRouter from './routes/user.route';
+/**
+ * Documentation Router
+ */
+import swaggerRouter from './routes/swagger.route';
 
 /**
  * Define Express
@@ -65,7 +69,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 /**
- * set security HTTP Headers
+ * Set security HTTP Headers
  */
 app.use(
   helmet({
@@ -164,6 +168,10 @@ app.use((req, res, next) => {
 app.use('/api/v1/', indexRouter);
 app.use('/api/v1/auth/', authRouter);
 app.use('/api/v1/users/', userRouter);
+/**
+ * Swagger Documentation endpoint
+ */
+app.use('/api/v1/docs/', swaggerRouter);
 
 /**
  * This helper function is useful if we use express as a pure API endpoint
@@ -174,7 +182,8 @@ app.all('*', (_, res) => {
 });
 
 /**
- * Catchall middleware. Activate to server every route in the public directory
+ * Catchall middleware. Activate to serve every route in
+ * the public directory i.e. if we have a build of React
  */
 app.use((req, res) =>
   res.sendFile(path.resolve(path.join(__dirname, '../public/index.html'))),

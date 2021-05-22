@@ -39,6 +39,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "regenerator-runtime": "^0.13.7",
+    "swagger-ui-express": "^4.1.6",
     "validator": "^13.6.0",
     "xss-clean": "^0.1.1"
   },

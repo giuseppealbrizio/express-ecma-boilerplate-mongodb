@@ -12,3 +12,9 @@ export class NotFoundError extends ApplicationError {
     super(404, message || 'resource not found');
   }
 }
+
+export class ValidationError extends ApplicationError {
+  constructor(message) {
+    super(400, message || 'Path is required');
+  }
+}

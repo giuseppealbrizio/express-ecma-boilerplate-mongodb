@@ -1,15 +1,29 @@
 import express from 'express';
-import { Multer } from '../middlewares/upload.middleware.js';
 import indexController from '../controllers/index.controller';
+import { Multer } from '../middlewares/upload.middleware.js';
+import authentication from '../middlewares/authenticate.middleware';
+import catchAsync from '../middlewares/catchAsync.middleware';
 
 const { apiEntryPoint, testUploadSingleFile, testUploadFiles } =
   indexController;
 
+const { authenticate } = authentication;
+
 const router = express.Router();
 
 router.get('/', apiEntryPoint);
-router.get('/test-upload-file', Multer.single('file'), testUploadSingleFile);
-router.get('/test-upload-files', Multer.array('files', 2), testUploadFiles);
+router.post(
+  '/test-upload-file',
+  Multer.single('file'),
+  authenticate,
+  catchAsync(testUploadSingleFile),
+);
+router.post(
+  '/test-upload-files',
+  Multer.array('files', 2),
+  authenticate,
+  catchAsync(testUploadFiles),
+);
 
 /**
  import asyncHandler from 'express-async-handler';
