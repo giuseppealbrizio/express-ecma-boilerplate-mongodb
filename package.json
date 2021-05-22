@@ -1,7 +1,37 @@
 {
-  "name": "express-ecma-boilerplate",
-  "version": "0.0.0",
-  "private": true,
+  "name": "express-ecma-boilerplate-mongodb",
+  "description": "A minimalistic express ecma boilerplate with mongodb",
+  "version": "1.0.0",
+  "private": false,
+  "license": "MIT",
+  "bin": "src/bin/www.js",
+  "main": "src/app.js",
+  "author": {
+    "name": "Giuseppe Albrizio",
+    "email": "g.albrizio@gmail.com"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "node.js",
+    "mongodb",
+    "mongoose",
+    "passport",
+    "ecma",
+    "REST",
+    "API",
+    "boilerplate",
+    "generator",
+    "starter project",
+    "passport"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/giuseppealbrizio/express-ecma-boilerplate-mongodb.git"
+  },
   "scripts": {
     "start": "npm run prod",
     "build": "npm-run-all clean transpile",
@@ -52,8 +82,5 @@
     "nodemon": "^2.0.7",
     "prettier": "2.3.0",
     "rimraf": "^3.0.2"
-  },
-  "author": {
-    "name": "Giuseppe Albrizio"
   }
 }
