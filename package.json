@@ -50,7 +50,7 @@
     "core-js": "^3.12.1",
     "cors": "^2.8.5",
     "debug": "^4.3.1",
-    "dotenv": "^9.0.2",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "express-mongo-sanitize": "^2.1.0",
