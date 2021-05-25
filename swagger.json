@@ -305,6 +305,255 @@
         ]
       }
     },
+    "/test-upload-single-file-to-gcs": {
+      "post": {
+        "tags": ["Test"],
+        "summary": "Test for upload a single file to Google Cloud Storage",
+        "operationId": "testUploadSingleFileToGcs",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "file to upload",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "fileDetails": {
+                      "type": "object",
+                      "properties": {
+                        "fieldname": {
+                          "type": "string"
+                        },
+                        "originalname": {
+                          "type": "string"
+                        },
+                        "encoding": {
+                          "type": "string"
+                        },
+                        "mimetype": {
+                          "type": "string"
+                        },
+                        "bucket": {
+                          "type": "string"
+                        },
+                        "destination": {
+                          "type": "string"
+                        },
+                        "filename": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "contentType": {
+                          "type": "string"
+                        },
+                        "size": {
+                          "type": "number"
+                        },
+                        "uri": {
+                          "type": "string"
+                        },
+                        "linkUrl": {
+                          "type": "string"
+                        },
+                        "selfLink": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token, please log in or sign up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "trace": {
+                          "type": "object",
+                          "properties": {
+                            "statusCode": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/test-upload-multiple-files-to-gcs": {
+      "post": {
+        "tags": ["Test"],
+        "summary": "Test for upload multiple to Google Cloud Storage",
+        "operationId": "testUploadMultipleFilesToGcs",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "string",
+                    "description": "files to upload",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "fileDetails": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "fieldname": {
+                            "type": "string"
+                          },
+                          "originalname": {
+                            "type": "string"
+                          },
+                          "encoding": {
+                            "type": "string"
+                          },
+                          "mimetype": {
+                            "type": "string"
+                          },
+                          "bucket": {
+                            "type": "string"
+                          },
+                          "destination": {
+                            "type": "string"
+                          },
+                          "filename": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "string"
+                          },
+                          "contentType": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "number"
+                          },
+                          "uri": {
+                            "type": "string"
+                          },
+                          "linkUrl": {
+                            "type": "string"
+                          },
+                          "selfLink": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token, please log in or sign up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "trace": {
+                          "type": "object",
+                          "properties": {
+                            "statusCode": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
 
     "/auth/signup": {
       "post": {
