@@ -41,6 +41,10 @@
     {
       "name": "User",
       "description": "User routes"
+    },
+    {
+      "name": "PubSub",
+      "description": "PubSub routes support"
     }
   ],
   "paths": {
@@ -1181,6 +1185,162 @@
           "404": {
             "description": "Resource not found",
             "content": {}
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+
+    "/publisher": {
+      "get": {
+        "tags": ["PubSub"],
+        "summary": "Test publisher router",
+        "operationId": "testPublisher",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing credentials",
+            "content": {}
+          },
+          "401": {
+            "description": "Invalid token, please log in or sign up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "trace": {
+                          "type": "object",
+                          "properties": {
+                            "statusCode": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/publisher/publish": {
+      "post": {
+        "tags": ["PubSub"],
+        "summary": "Publish a message to a specific topic",
+        "operationId": "publishMessage",
+        "requestBody": {
+          "required": true,
+          "description": "Some fields to send in the message",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing credentials",
+            "content": {}
+          },
+          "401": {
+            "description": "Invalid token, please log in or sign up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "trace": {
+                          "type": "object",
+                          "properties": {
+                            "statusCode": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
