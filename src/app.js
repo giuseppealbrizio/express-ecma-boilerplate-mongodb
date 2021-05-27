@@ -54,6 +54,11 @@ import userRouter from './routes/user.route';
  * Documentation Router
  */
 import swaggerRouter from './routes/swagger.route';
+/**
+ * Pub/Sub Routers
+ */
+import publisherRouter from './routes/publisher.route';
+import subscriberRouter from './routes/subscriber.route';
 
 /**
  * Define Express
@@ -168,10 +173,17 @@ app.use((req, res, next) => {
 app.use('/api/v1/', indexRouter);
 app.use('/api/v1/auth/', authRouter);
 app.use('/api/v1/users/', userRouter);
+
 /**
  * Swagger Documentation endpoint
  */
 app.use('/api/v1/docs/', swaggerRouter);
+
+/**
+ * Publisher endpoint
+ */
+app.use('/api/v1/publisher/', publisherRouter);
+app.use('/api/v1/subscriber/', subscriberRouter);
 
 /**
  * This helper function is useful if we use express as a pure API endpoint

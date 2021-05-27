@@ -11,6 +11,7 @@ This is a minimalist express boilerplate with the following features:
 > - `Error Handling` errors custom middleware and helpers globally configured
 > - `Multer` File uploading configured to use in routes as middleware
 > - `Google Cloud Storage` middleware configured to use Google Cloud Storage as upload bucket
+> - `Google Cloud Pub/Sub` pub/sub support for event driven events added
 > - `Axios` globally configured in `./src/utils/api.utils.js`
 > - `Swagger` documentation reachable at `http://localhost:3000/api/v1/docs`
 > - `Docker` ready configuration with multi-stage option
@@ -48,6 +49,8 @@ This is a minimalist express boilerplate with the following features:
 
 - Docker config is located at `./Dockerfile`
 
+- Pub/Sub service is located at `./src/services/pubsub/pub-sub.service.js`
+
 ## Folder Structure
 
 > `src/`
@@ -65,7 +68,7 @@ This is a minimalist express boilerplate with the following features:
 
 ## Getting Started
 
-Copy the .env.local to .env
+Copy the .env.example to .env
 
 ```bash
 cp env.example .env
@@ -75,6 +78,7 @@ Then replace:
 
 1. `MONGO_URI` string with your Mongo connection
 2. `GOOGLE_APPLICATION_CREDENTIALS` path with yours
+3. `GOOGLE_PROJECT_ID` with yours
 
 In order to Google Cloud Storage works follow instructions located in
 `./src/config/gcloud/README.md`
