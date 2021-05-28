@@ -2,7 +2,7 @@ import express from 'express';
 import subscriberController from '../controllers/subscriber.controller';
 import authentication from '../middlewares/authenticate.middleware';
 
-import catchAsync from '../middlewares/catchAsync.middleware.js';
+import catchAsync from '../middlewares/catchAsync.middleware';
 
 const { testSubscriberRoute, pullTestMessage, pushTestMessage } =
   subscriberController;

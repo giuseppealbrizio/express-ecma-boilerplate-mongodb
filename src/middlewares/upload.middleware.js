@@ -39,10 +39,10 @@ export const multerGCSUpload = multer({
   storage: new MulterGoogleCloudStorage({
     acl: 'publicRead',
     autoRetry: true,
-    bucket: process.env.GOOGLE_STORAGE_BUCKET_NAME, //bucket name
-    destination: 'main_upload_folder/', //folder destination in gcs
-    projectId: process.env.GOOGLE_PROJECT_ID, //gcp project id
-    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS, //path to JSON
+    bucket: process.env.GOOGLE_STORAGE_BUCKET_NAME, // bucket name
+    destination: 'main_upload_folder/', // folder destination in gcs
+    projectId: process.env.GOOGLE_PROJECT_ID, // gcp project id
+    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS, // path to JSON
     filename: (req, file, cb) => {
       cb(null, slugify(file.originalname));
     },

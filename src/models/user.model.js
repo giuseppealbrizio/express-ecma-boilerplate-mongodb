@@ -26,7 +26,10 @@ const UserSchema = new Schema({
 UserSchema.pre('save', async function (next) {
   if (!this.password || !this.isModified('password')) return next;
 
-  this.password = await bcrypt.hash(this.password, parseInt(process.env.HASH));
+  this.password = await bcrypt.hash(
+    this.password,
+    parseInt(process.env.HASH, 10),
+  );
   next();
 });
 
@@ -50,6 +53,8 @@ UserSchema.methods.generateVerificationToken = function () {
 };
 
 UserSchema.statics.checkExistingField = async (field, value) => {
+  // eslint-disable-next-line no-use-before-define
   return User.findOne({ [`${field}`]: value });
 };
+// eslint-disable-next-line import/prefer-default-export
 export const User = mongoose.model('User', UserSchema, 'users');

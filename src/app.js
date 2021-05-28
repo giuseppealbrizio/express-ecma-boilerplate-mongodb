@@ -10,38 +10,19 @@ import logger from 'morgan';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import path from 'path';
-import { MongoDB } from './config/database.config';
-
-/**
- * Custom error handling
- */
-import errorHandler from './middlewares/errorHandler.middleware';
-import { NotFoundError } from './helpers/errors.helper';
 
 /**
  * Import passport. Strategies are called in the auth router
  */
 import passport from 'passport';
 
-/**
- * import { User } from './models/Users.model';
- * If you import mongoose models in the entry point file then you can use
- * import mongoose from 'mongoose';
- * const User = mongoose.model('User');
- * Otherwise you can import model in the file you need to call it
- */
+import databaseConfig from './config/database.config';
 
 /**
- * Global env variables definition
+ * Custom error handling
  */
-dotenv.config();
-
-/**
- * Call the MongoDB connection and return info about db name
- */
-MongoDB().then((mongoose) => {
-  console.info(`${mongoose.connection.name} is connected`);
-});
+import errorHandler from './middlewares/errorHandler.middleware';
+import { NotFoundError } from './helpers/errors.helper';
 
 /**
  * Routes import
@@ -59,6 +40,26 @@ import swaggerRouter from './routes/swagger.route';
  */
 import publisherRouter from './routes/publisher.route';
 import subscriberRouter from './routes/subscriber.route';
+
+/**
+ * import { User } from './models/Users.model';
+ * If you import mongoose models in the entry point file then you can use
+ * import mongoose from 'mongoose';
+ * const User = mongoose.model('User');
+ * Otherwise you can import model in the file you need to call it
+ */
+
+/**
+ * Global env variables definition
+ */
+dotenv.config();
+
+/**
+ * Call the MongoDB connection and return info about db name
+ */
+databaseConfig.MongoDB().then((mongoose) => {
+  console.info(`${mongoose.connection.name} is connected`);
+});
 
 /**
  * Define Express
@@ -189,6 +190,7 @@ app.use('/api/v1/subscriber/', subscriberRouter);
  * This helper function is useful if we use express as a pure API endpoint
  * Everytime you hit a route that doesn't exist it returns a json error 404
  */
+// eslint-disable-next-line no-unused-vars
 app.all('*', (_, res) => {
   throw new NotFoundError('Resource not found on this server');
 });

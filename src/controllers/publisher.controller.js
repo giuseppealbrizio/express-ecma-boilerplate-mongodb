@@ -1,16 +1,19 @@
 import debug from 'debug';
-import { ApplicationError } from '../helpers/errors.helper';
 
 /**
  * Load PubSub Library
  */
 import { PubSub } from '@google-cloud/pubsub';
-const pubSubClient = new PubSub();
+
+import { ApplicationError } from '../helpers/errors.helper';
 
 /**
  * Load PubSub Custom Service
  */
-import pubSubService from './../services/pubsub/pub-sub.service.js';
+import pubSubService from '../services/pubsub/pub-sub.service';
+
+const pubSubClient = new PubSub();
+
 const { publishMessage } = pubSubService;
 
 /**
@@ -47,8 +50,8 @@ export default {
    */
   publishTestMessage: async (req, res) => {
     try {
-      let body = await req.body;
-      let messageId = await publishMessage(pubSubClient, topicName, body);
+      const body = await req.body;
+      const messageId = await publishMessage(pubSubClient, topicName, body);
       res.status(200).json({
         status: 'success',
         message: `Test message ${messageId} published`,

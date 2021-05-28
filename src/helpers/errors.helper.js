@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 export class ApplicationError extends Error {
   constructor(statusCode, message = 'an error occurred', errors) {
     super(message);

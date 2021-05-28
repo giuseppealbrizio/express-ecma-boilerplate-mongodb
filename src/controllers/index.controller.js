@@ -3,10 +3,9 @@ export default {
    * Entry point controller for /api/v1
    * @param req
    * @param res
-   * @param next
    * @return {Promise<void>}
    */
-  apiEntryPoint: async (req, res, next) => {
+  apiEntryPoint: async (req, res) => {
     try {
       res.status(200).json({
         status: 'success',
@@ -24,10 +23,9 @@ export default {
    * Return uploaded files in the test route
    * @param req
    * @param res
-   * @param next
    * @return {Promise<void>}
    */
-  testUploadSingleFile: async (req, res, next) => {
+  testUploadSingleFile: async (req, res) => {
     try {
       const file = await req.file;
       res.status(200).json({
@@ -47,10 +45,9 @@ export default {
    * Return uploaded files in the test route
    * @param req
    * @param res
-   * @param next
    * @return {Promise<void>}
    */
-  testUploadMultipleFiles: async (req, res, next) => {
+  testUploadMultipleFiles: async (req, res) => {
     try {
       const files = await req.files;
       res.status(200).json({
@@ -73,10 +70,9 @@ export default {
    * This means that will return an object with file information
    * @param req
    * @param res
-   * @param next
    * @return {Promise<void>}
    */
-  testUploadSingleFileToGCS: async (req, res, next) => {
+  testUploadSingleFileToGCS: async (req, res) => {
     try {
       const file = await req.file;
       res.status(200).json({
@@ -99,10 +95,9 @@ export default {
    * This means that will return an array
    * @param req
    * @param res
-   * @param next
    * @return {Promise<void>}
    */
-  testUploadMultipleFilesToGCS: async (req, res, next) => {
+  testUploadMultipleFilesToGCS: async (req, res) => {
     try {
       const files = await req.files;
       res.status(200).json({

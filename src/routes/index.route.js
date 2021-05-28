@@ -3,7 +3,7 @@ import indexController from '../controllers/index.controller';
 import {
   multerUpload,
   multerGCSUpload,
-} from '../middlewares/upload.middleware.js';
+} from '../middlewares/upload.middleware';
 import authentication from '../middlewares/authenticate.middleware';
 import catchAsync from '../middlewares/catchAsync.middleware';
 

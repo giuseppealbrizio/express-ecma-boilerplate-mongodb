@@ -41,6 +41,7 @@ passport.use(
     User.findOne({ _id: jwtPayload.id })
       .then((user) => {
         if (user) {
+          // eslint-disable-next-line no-param-reassign
           delete user._doc.password;
           done(null, user);
         } else {

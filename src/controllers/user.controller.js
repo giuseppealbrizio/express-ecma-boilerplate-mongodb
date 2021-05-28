@@ -5,46 +5,70 @@ import { ApplicationError, NotFoundError } from '../helpers/errors.helper';
 const DEBUG = debug('dev');
 
 export default {
-  findAllUsers: async (req, res, next) => {
+  /**
+   * Find all user accounts
+   * @param req
+   * @param res
+   * @return {Promise<void>}
+   */
+  findAllUsers: async (req, res) => {
     try {
       const users = await UserService.find();
       res.status(200).json({
         status: 'success',
         message: 'Users successfully retrieved',
-        data: { users: users },
+        data: { users },
       });
     } catch (error) {
       DEBUG(error);
       throw new ApplicationError(500, error);
     }
   },
-  findUserById: async (req, res, next) => {
+  /**
+   * Find User by id
+   * @param req
+   * @param res
+   * @return {Promise<void>}
+   */
+  findUserById: async (req, res) => {
     try {
       const user = await UserService.findById(req.params.id);
       res.status(200).json({
         status: 'success',
         message: 'User by id successfully retrieved',
-        data: { user: user },
+        data: { user },
       });
     } catch (error) {
       DEBUG(error);
       throw new NotFoundError(error.message);
     }
   },
-  updateUser: async (req, res, next) => {
+  /**
+   * Update user by id
+   * @param req
+   * @param res
+   * @return {Promise<void>}
+   */
+  updateUser: async (req, res) => {
     try {
       const user = await UserService.update(req.params.id, req.body);
       res.status(200).json({
         status: 'success',
         message: 'User updated successfully',
-        data: { user: user },
+        data: { user },
       });
     } catch (error) {
       DEBUG(error);
       throw new NotFoundError(error.message);
     }
   },
-  deleteUser: async (req, res, next) => {
+  /**
+   * Delete user by id
+   * @param req
+   * @param res
+   * @return {Promise<void>}
+   */
+  deleteUser: async (req, res) => {
     try {
       await UserService.delete(req.params.id);
       res.status(200).json({

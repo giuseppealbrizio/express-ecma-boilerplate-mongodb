@@ -3,12 +3,19 @@
  * This is just for testing purposes
  */
 import debug from 'debug';
-import { ApplicationError } from '../helpers/errors.helper';
 
 /**
  * Load PubSub Library
  */
 import { PubSub } from '@google-cloud/pubsub';
+
+import { ApplicationError } from '../helpers/errors.helper';
+
+/**
+ * Load PubSub Custom Service
+ */
+import pubSubService from '../services/pubsub/pub-sub.service';
+
 const pubSubClient = new PubSub();
 
 /**
@@ -16,14 +23,8 @@ const pubSubClient = new PubSub();
  * and timeout
  * @type {string}
  */
-// const subscriptionName = 'test_subscription';
 const subscriptionName = 'test_subscription';
 const timeout = 60;
-
-/**
- * Load PubSub Custom Service
- */
-import pubSubService from './../services/pubsub/pub-sub.service.js';
 const { listenForPullMessages, listenForPushMessages } = pubSubService;
 
 const DEBUG = debug('dev');
@@ -53,6 +54,7 @@ export default {
    * @param req
    * @param res
    */
+  // eslint-disable-next-line no-unused-vars
   pullTestMessage: (req, res) => {
     try {
       listenForPullMessages(pubSubClient, subscriptionName, timeout);
@@ -75,7 +77,9 @@ export default {
    */
   pushTestMessage: async (req, res) => {
     try {
-      let messageResponse = await listenForPushMessages(req.body.message.data);
+      const messageResponse = await listenForPushMessages(
+        req.body.message.data,
+      );
       return res.status(200).json({
         success: true,
         message: 'Message received successfully :)',

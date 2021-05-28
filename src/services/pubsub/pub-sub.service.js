@@ -52,7 +52,7 @@ export default {
    */
   listenForPushMessages: (payload) => {
     const message = Buffer.from(payload, 'base64').toString('utf-8');
-    let parsedMessage = JSON.parse(message);
+    const parsedMessage = JSON.parse(message);
     console.log('Hey publisher message received:', parsedMessage);
     return parsedMessage;
   },
