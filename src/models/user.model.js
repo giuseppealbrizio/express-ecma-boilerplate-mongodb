@@ -52,9 +52,10 @@ UserSchema.methods.generateVerificationToken = function () {
   });
 };
 
-UserSchema.statics.checkExistingField = async (field, value) => {
-  // eslint-disable-next-line no-use-before-define
-  return User.findOne({ [`${field}`]: value });
+UserSchema.statics.checkExistingField = async function (field, value) {
+  const user = this;
+
+  return user.findOne({ [`${field}`]: value });
 };
-// eslint-disable-next-line import/prefer-default-export
-export const User = mongoose.model('User', UserSchema, 'users');
+
+export default mongoose.model('User', UserSchema, 'users');

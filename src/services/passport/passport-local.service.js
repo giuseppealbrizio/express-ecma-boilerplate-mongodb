@@ -2,7 +2,7 @@ import debug from 'debug';
 import { Strategy } from 'passport-local';
 import passport from 'passport';
 
-import { User } from '../../models/user.model';
+import User from '../../models/user.model';
 
 const DEBUG = debug('dev');
 
