@@ -9,6 +9,7 @@ This is a minimalist express boilerplate with the following features:
 > - `MongoDB` ready to go configuration with mongoose
 > - `CORS` feature enabled
 > - `Passport` local authentication strategy and middleware to restrict access.
+> - `Sendgrid` email service support with sendgrid.
 > - `Error Handling` errors custom middleware and helpers globally configured
 > - `Multer` File uploading configured to use in routes as middleware
 > - `Google Cloud Storage` middleware configured to use Google Cloud Storage as upload bucket
@@ -32,6 +33,10 @@ This is a minimalist express boilerplate with the following features:
 - Passport config is located at `./src/config/passport.config.js`
 
   - Local Strategy is defined in `./src/services/passport/passport-local.service.js`
+
+- Sendgrid service support is located at `./src/services/email/sendgrid.service.js`
+
+  - You can define your own email services in this file
 
 - Mongo config is located at `./src/config/database.config.js`
 
@@ -81,6 +86,8 @@ Then replace:
 1. `MONGO_URI` string with your Mongo connection
 2. `GOOGLE_APPLICATION_CREDENTIALS` path with yours
 3. `GOOGLE_PROJECT_ID` with yours
+4. `SENDGRID_API_KEY` with yours
+5. `SENDGRID_SENDER_EMAIL` with yours
 
 In order to Google Cloud Storage works follow instructions located in
 `./src/config/gcloud/README.md`
