@@ -2,6 +2,8 @@ import passport from 'passport';
 import debug from 'debug';
 import '../services/passport/passport-local.service';
 import { ApplicationError } from '../helpers/errors.helper';
+import User from '../models/user.model';
+import emailService from '../services/email/sendgrid.service';
 
 const DEBUG = debug('dev');
 
@@ -90,7 +92,7 @@ export default {
               },
             });
           }
-          // generate a signed son web token with the contents of user
+          // generate a signed json web token with the contents of user
           // object and return it in the response
           createCookieFromToken(user, 200, req, res);
         } catch (error) {
@@ -118,6 +120,91 @@ export default {
       DEBUG(error);
       throw new ApplicationError(500, error);
     }
+  },
+  /**
+   * Request a password recovery and
+   * send an email with a token to use in
+   * the resetPassword Controller
+   * @param req
+   * @param res
+   * @return {Promise<*>}
+   */
+  recoverPassword: async (req, res) => {
+    try {
+      // Destroy session and remove any cookie
+      await req.session.destroy();
+      await res.clearCookie('jwt');
+
+      const { email } = req.body;
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return res.status(400).json({
+          status: 'error',
+          error: {
+            status: 'error',
+            message: 'User not found',
+          },
+        });
+      }
+
+      // Generate and set password reset token
+      await user.generatePasswordResetToken();
+
+      // Save the updated user object with a resetPasswordToken and expire
+      await user.save();
+
+      // Send email to the user with the token
+      await emailService.sendResetPasswordToken(
+        user.email,
+        user.resetPasswordToken,
+      );
+
+      res.status(200).json({
+        status: 'success',
+        message: `A reset email has been sent to ${user.email}.`,
+      });
+    } catch (error) {
+      DEBUG(error);
+      throw new ApplicationError(500, error, error);
+    }
+  },
+  /**
+   * Reset password controller
+   * @param req
+   * @param res
+   * @param next
+   * @return {Promise<void>}
+   */
+  resetPassword: async (req, res, next) => {
+    passport.authenticate(
+      'reset-password',
+      { session: false },
+      async (err, user, info) => {
+        try {
+          if (err || !user) {
+            let message = err;
+            if (info) {
+              message = info.message;
+            }
+            return res.status(400).json({
+              status: 'error',
+              error: {
+                message,
+              },
+            });
+          }
+
+          res.status(200).json({
+            status: 'success',
+            message: 'Password successfully updated',
+          });
+        } catch (error) {
+          DEBUG(error);
+          throw new ApplicationError(500, error);
+        }
+      },
+    )(req, res, next);
   },
   /**
    * Protected router test
