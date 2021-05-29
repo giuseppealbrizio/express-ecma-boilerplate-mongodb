@@ -23,7 +23,7 @@ export default {
         to: email,
         from: process.env.SENDGRID_SENDER_EMAIL,
         subject: 'Password change request',
-        text: `Hi user, this is the token you need ${token}`,
+        text: `Hello ${email}, we heard you lost your password. You can recover with this token: ${token}`,
       };
       return await MailService.send(msg);
     } catch (error) {
