@@ -72,24 +72,52 @@ export default {
    * @param res
    * @param next
    */
-  login: (req, res, next) => {
-    passport.authenticate('login', { session: false }, (err, user, info) => {
-      if (err || !user) {
-        let message = err;
-        if (info) {
-          message = info.message;
+  login: async (req, res, next) => {
+    passport.authenticate(
+      'login',
+      { session: false },
+      async (err, user, info) => {
+        try {
+          if (err || !user) {
+            let message = err;
+            if (info) {
+              message = info.message;
+            }
+            return res.status(401).json({
+              status: 'error',
+              error: {
+                message,
+              },
+            });
+          }
+          // generate a signed son web token with the contents of user
+          // object and return it in the response
+          createCookieFromToken(user, 200, req, res);
+        } catch (error) {
+          DEBUG(error);
+          throw new ApplicationError(500, error);
         }
-        return res.status(401).json({
-          status: 'error',
-          error: {
-            message,
-          },
-        });
-      }
-      // generate a signed son web token with the contents of user
-      // object and return it in the response
-      createCookieFromToken(user, 200, req, res);
-    })(req, res, next);
+      },
+    )(req, res, next);
+  },
+  /**
+   * Logout controller that delete cookie named jwt
+   * @param req
+   * @param res
+   * @return {Promise<*>}
+   */
+  logout: async (req, res) => {
+    try {
+      await req.session.destroy();
+      await res.clearCookie('jwt');
+      return res.status(200).json({
+        status: 'success',
+        message: 'You have successfully logged out',
+      });
+    } catch (error) {
+      DEBUG(error);
+      throw new ApplicationError(500, error);
+    }
   },
   /**
    * Protected router test
