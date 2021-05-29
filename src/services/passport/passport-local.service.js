@@ -1,7 +1,6 @@
-import debug from 'debug';
-import { Strategy } from 'passport-local';
 import passport from 'passport';
-
+import { Strategy } from 'passport-local';
+import debug from 'debug';
 import User from '../../models/user.model';
 
 const DEBUG = debug('dev');
@@ -79,6 +78,59 @@ passport.use(
       await newUser.save();
 
       return cb(null, newUser);
+    } catch (err) {
+      DEBUG(err);
+      return cb(null, false, { statusCode: 400, message: err.message });
+    }
+  }),
+);
+
+/**
+ * The password Reset method is with a token generated
+ */
+passport.use(
+  'reset-password',
+  new Strategy(authFields, async (req, email, password, cb) => {
+    try {
+      /**
+       * Deprecated in favour of password reset with token
+       * @type {*}
+       */
+      // const user = await User.findOne({
+      //   $or: [{ email }, { username: email }],
+      // });
+      // if (!user) {
+      //   return cb(null, false, {
+      //     message: 'No account with this email found.',
+      //   });
+      // }
+      // const checkPassword = await user.comparePassword(password);
+      //
+      // if (!checkPassword) {
+      //   return cb(null, false, {
+      //     message: 'Old password is incorrect.',
+      //   });
+      // }
+      const { token } = await req.body;
+
+      const user = await User.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: Date.now() },
+      });
+
+      if (!user) {
+        return cb(null, false, {
+          message: 'Password reset token is invalid or has expired.',
+        });
+      }
+
+      user.password = password;
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
+
+      await user.save();
+
+      return cb(null, user, { message: 'Password Changed Successfully' });
     } catch (err) {
       DEBUG(err);
       return cb(null, false, { statusCode: 400, message: err.message });

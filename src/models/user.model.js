@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import validator from 'validator';
+import crypto from 'crypto';
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ const UserSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: {
     type: String,
-    validate: [validator.isEmail, 'Pleas provide an email address'],
+    validate: [validator.isEmail, 'Please provide an email address'],
     lowercase: true,
     unique: true,
     required: [true, "Email can't be blank"],
@@ -21,6 +22,14 @@ const UserSchema = new Schema({
     trim: true,
   },
   password: { type: String, required: true, minlength: 8 },
+  resetPasswordToken: {
+    type: String,
+    required: false,
+  },
+  resetPasswordExpires: {
+    type: Date,
+    required: false,
+  },
 });
 
 UserSchema.pre('save', async function (next) {
@@ -50,6 +59,11 @@ UserSchema.methods.generateVerificationToken = function () {
     expiresIn: '10d',
     // algorithm: 'RS256',
   });
+};
+
+UserSchema.methods.generatePasswordResetToken = async function () {
+  this.resetPasswordToken = await crypto.randomBytes(20).toString('hex');
+  this.resetPasswordExpires = Date.now() + 3600000; // expires in an hour
 };
 
 UserSchema.statics.checkExistingField = async function (field, value) {
