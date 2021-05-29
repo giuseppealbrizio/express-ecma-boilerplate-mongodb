@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@google-cloud/pubsub": "^2.12.0",
+    "@sendgrid/mail": "^7.4.4",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
@@ -71,6 +72,7 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^6.1.0",
     "regenerator-runtime": "^0.13.7",
     "slugify": "^1.5.3",
     "swagger-ui-express": "^4.1.6",
