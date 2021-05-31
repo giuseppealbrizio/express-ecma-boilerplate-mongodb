@@ -1,15 +1,17 @@
 {
   "env": {
-    "node": true
+    "node": true,
+    "jest": true
   },
   "extends": ["airbnb-base", "plugin:prettier/recommended"],
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "jest"],
   "rules": {
     "prettier/prettier": "error",
     "no-console": "off",
     "consistent-return": "off",
     "no-underscore-dangle": "off",
     "func-names": "off",
-    "no-else-return": "off"
+    "no-else-return": "off",
+    "jest/expect-expect": "off"
   }
 }
