@@ -11,10 +11,9 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import path from 'path';
 
-//Test Pull request
-
 /**
  * Import passport. Strategies are called in the auth router
+ * and in ./src/services/passport
  */
 import passport from 'passport';
 
