@@ -85,6 +85,7 @@ cp env.example .env
 Then replace:
 
 1. `MONGO_URI` string with your Mongo connection
+   1. `MONGO_URI_TEST` string with your Mongo Test connection
 2. `GOOGLE_APPLICATION_CREDENTIALS` path with yours
 3. `GOOGLE_PROJECT_ID` with yours
 4. `SENDGRID_API_KEY` with yours

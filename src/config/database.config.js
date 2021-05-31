@@ -18,4 +18,17 @@ export default {
       throw new Error(error.message);
     }
   },
+  MongoDBTest: async () => {
+    try {
+      return await mongoose.connect(process.env.MONGO_URI_TEST, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+      });
+    } catch (error) {
+      DEBUG(error);
+      throw new Error(error.message);
+    }
+  },
 };
