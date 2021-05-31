@@ -13,6 +13,7 @@ import path from 'path';
 
 /**
  * Import passport. Strategies are called in the auth router
+ * and in ./src/services/passport
  */
 import passport from 'passport';
 
@@ -64,7 +65,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 } else {
   databaseConfig.MongoDBTest().then((mongoose) => {
-    console.info(`${mongoose.connection.name} is connected`);
+    console.info(`Test - ${mongoose.connection.name} is connected`);
   });
 }
 
