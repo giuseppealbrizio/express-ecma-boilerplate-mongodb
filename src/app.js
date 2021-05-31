@@ -65,7 +65,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 } else {
   databaseConfig.MongoDBTest().then((mongoose) => {
-    console.info(`${mongoose.connection.name} is connected`);
+    console.info(`Test - ${mongoose.connection.name} is connected`);
   });
 }
 
