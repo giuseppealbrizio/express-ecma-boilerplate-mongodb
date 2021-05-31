@@ -13,6 +13,7 @@ import path from 'path';
 
 /**
  * Import passport. Strategies are called in the auth router
+ * and in ./src/services/passport
  */
 import passport from 'passport';
 
