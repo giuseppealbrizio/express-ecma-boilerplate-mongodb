@@ -1,6 +1,6 @@
 {
   "name": "express-ecma-boilerplate-mongodb",
-  "description": "A minimalistic express ecma boilerplate with mongodb",
+  "description": "A minimalist express ecma boilerplate with mongodb",
   "version": "1.0.0",
   "private": false,
   "license": "MIT",
@@ -26,7 +26,11 @@
     "boilerplate",
     "generator",
     "starter project",
-    "passport"
+    "passport",
+    "eslint",
+    "jest",
+    "sendgrid",
+    "test"
   ],
   "repository": {
     "type": "git",
@@ -36,11 +40,12 @@
     "start": "npm run prod",
     "build": "npm-run-all clean transpile",
     "server": "node ./build/bin/www",
-    "dev": "NODE_ENV=development nodemon --exec babel-node src/bin/www",
-    "prod": "NODE_ENV=production npm-run-all build server",
+    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node src/bin/www",
+    "prod": "cross-env NODE_ENV=production npm-run-all build server",
     "transpile": "babel src --out-dir build",
     "clean": "rimraf build",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "cross-env NODE_ENV=test jest --verbose"
   },
   "dependencies": {
     "@google-cloud/pubsub": "^2.12.0",
@@ -92,13 +97,23 @@
     "@types/passport": "^1.0.6",
     "@types/swagger-ui-express": "^4.1.2",
     "babel-plugin-module-resolver": "^4.1.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.27.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^27.0.3",
     "nodemon": "^2.0.7",
     "prettier": "2.3.0",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "supertest": "^6.1.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

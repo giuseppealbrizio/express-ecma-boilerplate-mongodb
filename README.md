@@ -16,6 +16,7 @@ This is a minimalist express boilerplate with the following features:
 > - `Google Cloud Pub/Sub` pub/sub support for event driven events added
 > - `Axios` globally configured in `./src/utils/api.utils.js`
 > - `Swagger` documentation reachable at `http://localhost:3000/api/v1/docs`
+> - `Jest` Testing tool support
 > - `Docker` ready configuration with multi-stage option
 > - `Best practices` in naming files
 
