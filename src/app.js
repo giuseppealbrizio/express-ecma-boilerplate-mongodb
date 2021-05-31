@@ -55,11 +55,18 @@ import subscriberRouter from './routes/subscriber.route';
 dotenv.config();
 
 /**
- * Call the MongoDB connection and return info about db name
+ * Call the MongoDB connection based on the NODE_ENV setting
+ * and return info about db name
  */
-databaseConfig.MongoDB().then((mongoose) => {
-  console.info(`${mongoose.connection.name} is connected`);
-});
+if (process.env.NODE_ENV === 'production') {
+  databaseConfig.MongoDB().then((mongoose) => {
+    console.info(`${mongoose.connection.name} is connected`);
+  });
+} else {
+  databaseConfig.MongoDBTest().then((mongoose) => {
+    console.info(`${mongoose.connection.name} is connected`);
+  });
+}
 
 /**
  * Define Express
@@ -129,7 +136,12 @@ app.use(
     resave: false,
     saveUninitialized: true,
     /* Store session in mongodb */
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+    store: MongoStore.create({
+      mongoUrl:
+        process.env.NODE_ENV === 'production'
+          ? process.env.MONGO_URI
+          : process.env.MONGO_URI_TEST,
+    }),
     // unset: 'destroy',
   }),
 );
