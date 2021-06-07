@@ -30,6 +30,10 @@ const UserSchema = new Schema({
     type: Date,
     required: false,
   },
+  googleId: {
+    type: String,
+    required: false,
+  },
 });
 
 UserSchema.pre('save', async function (next) {

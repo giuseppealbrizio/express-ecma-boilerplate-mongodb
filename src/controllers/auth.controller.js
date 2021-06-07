@@ -206,6 +206,16 @@ export default {
       },
     )(req, res, next);
   },
+  socialAuth: async (req, res) => {
+    try {
+      const { authInfo, user } = req;
+      // console.log(authInfo);
+      createCookieFromToken(user, authInfo.statusCode || 201, req, res);
+    } catch (error) {
+      DEBUG(error);
+      throw new ApplicationError(500, error);
+    }
+  },
   /**
    * Protected router test
    * @param req
