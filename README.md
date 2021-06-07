@@ -8,7 +8,7 @@ This is a minimalist express boilerplate with the following features:
 > - `Prettier` to prettify the code
 > - `MongoDB` ready to go configuration with mongoose
 > - `CORS` feature enabled
-> - `Passport` local authentication strategy and middleware to restrict access.
+> - `Passport` authentication strategies and middleware to restrict access.
 > - `Sendgrid` email service support with sendgrid.
 > - `Error Handling` errors custom middleware and helpers globally configured
 > - `Multer` File uploading configured to use in routes as middleware
@@ -34,6 +34,7 @@ This is a minimalist express boilerplate with the following features:
 - Passport config is located at `./src/config/passport.config.js`
 
   - Local Strategy is defined in `./src/services/passport/passport-local.service.js`
+  - Google Strategy is defined in `./src/services/passport/passport-google.service.js`
 
 - Sendgrid service support is located at `./src/services/email/sendgrid.service.js`
 
