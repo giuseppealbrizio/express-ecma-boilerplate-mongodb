@@ -1,7 +1,7 @@
 {
   "name": "express-ecma-boilerplate-mongodb",
   "description": "A minimalist express ecma boilerplate with mongodb",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": false,
   "license": "MIT",
   "bin": "src/bin/www.js",
