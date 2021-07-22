@@ -4,10 +4,19 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import validator from 'validator';
 import crypto from 'crypto';
+import { ApplicationError } from '../helpers/errors.helper';
 
 dotenv.config();
 
 // const jwtPrivateSecret = process.env.JWT_PRIVATE_SECRET.replace(/\\n/g, '\n');
+
+if (!process.env.JWT_KEY) {
+  throw new ApplicationError(
+    404,
+    'Please provide a JWT_KEY as global environment variable',
+  );
+}
+const jwtKey = process.env.JWT_KEY;
 
 const UserSchema = new Schema({
   username: { type: String, required: true, unique: true },
@@ -50,7 +59,11 @@ UserSchema.methods.toJSON = function () {
   const user = this;
 
   const userObj = user.toObject();
+
+  userObj.id = userObj._id; // remap _id to id
+  delete userObj._id;
   delete userObj.password;
+  delete userObj.__v;
   return userObj;
 };
 
@@ -59,9 +72,9 @@ UserSchema.methods.comparePassword = async function (password) {
 };
 
 UserSchema.methods.generateVerificationToken = function () {
-  return jwt.sign({ id: this._id }, 'JWT_SECRET', {
+  return jwt.sign({ id: this._id, email: this.email }, jwtKey, {
     expiresIn: '10d',
-    // algorithm: 'RS256',
+    // algorithm: 'RS256', // use this if set public and private keys
   });
 };
 

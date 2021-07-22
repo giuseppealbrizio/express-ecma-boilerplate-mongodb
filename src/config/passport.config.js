@@ -5,10 +5,19 @@ import passport from 'passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import dotenv from 'dotenv';
 import User from '../models/user.model';
+import { ApplicationError } from '../helpers/errors.helper';
 
 dotenv.config();
 
 // const jwtPublicSecret = process.env.JWT_PUBLIC_SECRET.replace(/\\n/g, '\n');
+
+if (!process.env.JWT_KEY) {
+  throw new ApplicationError(
+    404,
+    'Please provide a JWT_KEY as global environment variable',
+  );
+}
+const jwtKey = process.env.JWT_KEY;
 
 /**
  * Extract the jwt token from a custom Cookie Extractor function which
@@ -26,7 +35,7 @@ const cookieExtractor = (req) => {
 };
 
 const options = {
-  secretOrKey: 'JWT_SECRET',
+  secretOrKey: jwtKey,
   // algorithms: ['RS256'],
   passReqToCallback: true,
 };
