@@ -43,6 +43,10 @@
       "description": "User routes"
     },
     {
+      "name": "Upload",
+      "description": "Upload routes"
+    },
+    {
       "name": "PubSub",
       "description": "PubSub routes support"
     }
@@ -80,27 +84,11 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/test-upload-file": {
-      "post": {
+    "/check-user-logged": {
+      "get": {
         "tags": ["Test"],
-        "summary": "Test for upload a single file",
-        "operationId": "testUploadSingleFile",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "description": "file to upload",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
+        "summary": "Check user logged in",
+        "operationId": "testUserLogged",
         "responses": {
           "200": {
             "description": "successful operation",
@@ -115,37 +103,57 @@
                     "message": {
                       "type": "string"
                     },
-                    "fileDetails": {
+                    "userInCookie": {
                       "type": "object",
                       "properties": {
-                        "fieldname": {
+                        "id": {
                           "type": "string"
                         },
-                        "originalname": {
+                        "email": {
                           "type": "string"
                         },
-                        "encoding": {
+                        "username": {
                           "type": "string"
                         },
-                        "mimetype": {
+                        "iat": {
                           "type": "string"
                         },
-                        "buffer": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string"
-                            },
-                            "data": {
-                              "type": "array",
-                              "items": {
-                                "type": "number"
-                              }
-                            }
-                          }
+                        "exp": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "userInPassport": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
                         },
-                        "size": {
-                          "type": "number"
+                        "email": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "userInSession": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "iat": {
+                          "type": "string"
+                        },
+                        "exp": {
+                          "type": "string"
                         }
                       }
                     }
@@ -153,6 +161,10 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Missing credentials",
+            "content": {}
           },
           "401": {
             "description": "Invalid token, please log in or sign up",
@@ -184,378 +196,19 @@
                 }
               }
             }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/test-upload-files": {
-      "post": {
-        "tags": ["Test"],
-        "summary": "Test for upload multiple files",
-        "operationId": "testUploadMultipleFiles",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "files": {
-                    "type": "string",
-                    "description": "file to upload",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "fileDetails": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "fieldname": {
-                            "type": "string"
-                          },
-                          "originalname": {
-                            "type": "string"
-                          },
-                          "encoding": {
-                            "type": "string"
-                          },
-                          "mimetype": {
-                            "type": "string"
-                          },
-                          "buffer": {
-                            "type": "object",
-                            "properties": {
-                              "type": {
-                                "type": "string"
-                              },
-                              "data": {
-                                "type": "array",
-                                "items": {
-                                  "type": "number"
-                                }
-                              }
-                            }
-                          },
-                          "size": {
-                            "type": "number"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
           },
-          "401": {
-            "description": "Invalid token, please log in or sign up",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string"
-                        },
-                        "trace": {
-                          "type": "object",
-                          "properties": {
-                            "statusCode": {
-                              "type": "number"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+          "404": {
+            "description": "Resource not found",
+            "content": {}
           }
         },
         "security": [
           {
             "bearerAuth": []
           }
-        ]
-      }
-    },
-    "/test-upload-single-file-to-gcs": {
-      "post": {
-        "tags": ["Test"],
-        "summary": "Test for upload a single file to Google Cloud Storage",
-        "operationId": "testUploadSingleFileToGcs",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "description": "file to upload",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "fileDetails": {
-                      "type": "object",
-                      "properties": {
-                        "fieldname": {
-                          "type": "string"
-                        },
-                        "originalname": {
-                          "type": "string"
-                        },
-                        "encoding": {
-                          "type": "string"
-                        },
-                        "mimetype": {
-                          "type": "string"
-                        },
-                        "bucket": {
-                          "type": "string"
-                        },
-                        "destination": {
-                          "type": "string"
-                        },
-                        "filename": {
-                          "type": "string"
-                        },
-                        "path": {
-                          "type": "string"
-                        },
-                        "contentType": {
-                          "type": "string"
-                        },
-                        "size": {
-                          "type": "number"
-                        },
-                        "uri": {
-                          "type": "string"
-                        },
-                        "linkUrl": {
-                          "type": "string"
-                        },
-                        "selfLink": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid token, please log in or sign up",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string"
-                        },
-                        "trace": {
-                          "type": "object",
-                          "properties": {
-                            "statusCode": {
-                              "type": "number"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/test-upload-multiple-files-to-gcs": {
-      "post": {
-        "tags": ["Test"],
-        "summary": "Test for upload multiple to Google Cloud Storage",
-        "operationId": "testUploadMultipleFilesToGcs",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "files": {
-                    "type": "string",
-                    "description": "files to upload",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "fileDetails": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "fieldname": {
-                            "type": "string"
-                          },
-                          "originalname": {
-                            "type": "string"
-                          },
-                          "encoding": {
-                            "type": "string"
-                          },
-                          "mimetype": {
-                            "type": "string"
-                          },
-                          "bucket": {
-                            "type": "string"
-                          },
-                          "destination": {
-                            "type": "string"
-                          },
-                          "filename": {
-                            "type": "string"
-                          },
-                          "path": {
-                            "type": "string"
-                          },
-                          "contentType": {
-                            "type": "string"
-                          },
-                          "size": {
-                            "type": "number"
-                          },
-                          "uri": {
-                            "type": "string"
-                          },
-                          "linkUrl": {
-                            "type": "string"
-                          },
-                          "selfLink": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid token, please log in or sign up",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string"
-                    },
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string"
-                        },
-                        "trace": {
-                          "type": "object",
-                          "properties": {
-                            "statusCode": {
-                              "type": "number"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        ],
+
+        "x-codegen-request-body-name": "body"
       }
     },
 
@@ -1463,6 +1116,485 @@
           }
         ],
         "x-codegen-request-body-name": "body"
+      }
+    },
+
+    "/upload/test-upload-file": {
+      "post": {
+        "tags": ["Upload"],
+        "summary": "Test for upload a single file",
+        "operationId": "testUploadSingleFile",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "file to upload",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "fileDetails": {
+                      "type": "object",
+                      "properties": {
+                        "fieldname": {
+                          "type": "string"
+                        },
+                        "originalname": {
+                          "type": "string"
+                        },
+                        "encoding": {
+                          "type": "string"
+                        },
+                        "mimetype": {
+                          "type": "string"
+                        },
+                        "buffer": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            },
+                            "data": {
+                              "type": "array",
+                              "items": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        },
+                        "size": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token, please log in or sign up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "trace": {
+                          "type": "object",
+                          "properties": {
+                            "statusCode": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/upload/test-upload-files": {
+      "post": {
+        "tags": ["Upload"],
+        "summary": "Test for upload multiple files",
+        "operationId": "testUploadMultipleFiles",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "string",
+                    "description": "file to upload",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "fileDetails": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "fieldname": {
+                            "type": "string"
+                          },
+                          "originalname": {
+                            "type": "string"
+                          },
+                          "encoding": {
+                            "type": "string"
+                          },
+                          "mimetype": {
+                            "type": "string"
+                          },
+                          "buffer": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              },
+                              "data": {
+                                "type": "array",
+                                "items": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          },
+                          "size": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token, please log in or sign up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "trace": {
+                          "type": "object",
+                          "properties": {
+                            "statusCode": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/upload/test-upload-single-file-to-gcs": {
+      "post": {
+        "tags": ["Upload"],
+        "summary": "Test for upload a single file to Google Cloud Storage",
+        "operationId": "testUploadSingleFileToGcs",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "file to upload",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "fileDetails": {
+                      "type": "object",
+                      "properties": {
+                        "fieldname": {
+                          "type": "string"
+                        },
+                        "originalname": {
+                          "type": "string"
+                        },
+                        "encoding": {
+                          "type": "string"
+                        },
+                        "mimetype": {
+                          "type": "string"
+                        },
+                        "bucket": {
+                          "type": "string"
+                        },
+                        "destination": {
+                          "type": "string"
+                        },
+                        "filename": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "contentType": {
+                          "type": "string"
+                        },
+                        "size": {
+                          "type": "number"
+                        },
+                        "uri": {
+                          "type": "string"
+                        },
+                        "linkUrl": {
+                          "type": "string"
+                        },
+                        "selfLink": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token, please log in or sign up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "trace": {
+                          "type": "object",
+                          "properties": {
+                            "statusCode": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/upload/test-upload-multiple-files-to-gcs": {
+      "post": {
+        "tags": ["Upload"],
+        "summary": "Test for upload multiple to Google Cloud Storage",
+        "operationId": "testUploadMultipleFilesToGcs",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "string",
+                    "description": "files to upload",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "fileDetails": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "fieldname": {
+                            "type": "string"
+                          },
+                          "originalname": {
+                            "type": "string"
+                          },
+                          "encoding": {
+                            "type": "string"
+                          },
+                          "mimetype": {
+                            "type": "string"
+                          },
+                          "bucket": {
+                            "type": "string"
+                          },
+                          "destination": {
+                            "type": "string"
+                          },
+                          "filename": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "string"
+                          },
+                          "contentType": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "number"
+                          },
+                          "uri": {
+                            "type": "string"
+                          },
+                          "linkUrl": {
+                            "type": "string"
+                          },
+                          "selfLink": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token, please log in or sign up",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        },
+                        "trace": {
+                          "type": "object",
+                          "properties": {
+                            "statusCode": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
 

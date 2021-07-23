@@ -28,8 +28,8 @@ This is a minimalist express boilerplate with the following features:
 
 - Babel config to transpile the code is located at `./.babel.rc`
 
-- Prettier config is located at `./.prettierrc.js`
-- Eslint config is located at `./.eslintrc.json`
+- Prettier config is located at `./.prettierrc.yml`
+- Eslint config is located at `./.eslintrc.yml`
 
 - Passport config is located at `./src/config/passport.config.js`
 
