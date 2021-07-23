@@ -26,6 +26,14 @@ const createCookieFromToken = (user, statusCode, req, res) => {
     secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
   };
 
+  /**
+   * Store the jwt also in the session in an obj called user
+   * @type {{jwt}}
+   */
+  req.session.user = {
+    jwt: token,
+  };
+
   res.cookie('jwt', token, cookieOptions);
 
   res.status(statusCode).json({

@@ -1,7 +1,7 @@
 {
   "name": "express-ecma-boilerplate-mongodb",
   "description": "A minimalist express ecma boilerplate with mongodb",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": false,
   "license": "MIT",
   "bin": "src/bin/www.js",
@@ -79,7 +79,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.1.0",
-    "regenerator-runtime": "^0.13.7",
+    "regenerator-runtime": "^0.13.9",
     "slugify": "^1.6.0",
     "swagger-ui-express": "^4.1.6",
     "validator": "^13.6.0",
