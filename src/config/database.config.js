@@ -28,12 +28,7 @@ const DEBUG = debug('dev');
 export default {
   MongoDB: async () => {
     try {
-      return await mongoose.connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        useCreateIndex: true,
-      });
+      return await mongoose.connect(process.env.MONGO_URI);
     } catch (error) {
       DEBUG(error);
       throw new Error(error.message);
@@ -41,12 +36,7 @@ export default {
   },
   MongoDBTest: async () => {
     try {
-      return await mongoose.connect(process.env.MONGO_URI_TEST, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        useCreateIndex: true,
-      });
+      return await mongoose.connect(process.env.MONGO_URI_TEST);
     } catch (error) {
       DEBUG(error);
       throw new Error(error.message);
