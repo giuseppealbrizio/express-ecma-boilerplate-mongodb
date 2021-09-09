@@ -20,30 +20,44 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const currentUser = await User.findOne({ googleId: profile.id });
-        if (currentUser) {
-          return done(null, currentUser, { statusCode: 200 });
+        const username = profile.emails[0].value;
+        const email = profile.emails[0].value;
+
+        // 1. Check if user has already a google profile and return it
+        const googleUser = await User.findOne({ 'google.id': profile.id });
+
+        if (googleUser) {
+          return done(null, googleUser, { statusCode: 200 });
         }
 
-        const email = profile.emails[0].value;
-        const username = profile.emails[0].value;
-
+        // 2. If user email is in the db and tries to google auth
+        // update only with google id and token
         const checkEmail = await User.checkExistingField('email', email);
+
+        const fieldsToUpdate = {
+          'google.id': profile.id,
+          'google.sync': true,
+          'google.tokens.accessToken': accessToken,
+        };
 
         if (checkEmail) {
           const user = await User.findByIdAndUpdate(
             checkEmail._id,
-            { googleId: profile.id },
+            fieldsToUpdate,
             { new: true },
           );
           return done(null, user, { statusCode: 200 });
         }
 
+        // 3. If nothing before is verified create a new User
         const userObj = new User({
-          googleId: profile.id,
-          username,
+          username, // the same as the email
           email,
-          // password: accessToken,
+          password: accessToken,
+          role: 'admin',
+          'google.id': profile.id,
+          'google.sync': true,
+          'google.tokens.accessToken': accessToken,
         });
 
         const user = await userObj.save({ validateBeforeSave: false });
