@@ -22,7 +22,10 @@ const UserSchema = new Schema({
   username: { type: String, required: true, unique: true },
   email: {
     type: String,
-    validate: [validator.isEmail, 'Please provide an email address'],
+    validate: {
+      validator: (value) => validator.isEmail(value),
+      message: 'Must be a Valid email',
+    },
     lowercase: true,
     unique: true,
     required: [true, "Email can't be blank"],
@@ -39,9 +42,13 @@ const UserSchema = new Schema({
     type: Date,
     required: false,
   },
-  googleId: {
-    type: String,
-    required: false,
+  google: {
+    id: String,
+    sync: { type: Boolean }, // authorisation to sync with google
+    tokens: {
+      accessToken: String,
+      refreshToken: String,
+    },
   },
 });
 
