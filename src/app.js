@@ -1,29 +1,24 @@
+import compression from 'compression';
+import MongoStore from 'connect-mongo';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import helmet from 'helmet';
-import xss from 'xss-clean';
 import mongoSanitize from 'express-mongo-sanitize';
-import compression from 'compression';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
 import session from 'express-session';
-import MongoStore from 'connect-mongo';
-import path from 'path';
-
-/**
- * Import passport. Strategies are called in the auth router
- * and in ./src/services/passport
- */
+import helmet from 'helmet';
+import logger from 'morgan';
 import passport from 'passport';
+import path from 'path';
+import xss from 'xss-clean';
 
 import databaseConfig from './config/database.config';
 
 /**
  * Custom error handling
  */
-import errorHandler from './middlewares/errorHandler.middleware';
 import { NotFoundError } from './helpers/errors.helper';
+import errorHandler from './middlewares/errorHandler.middleware';
 
 /**
  * Routes import
@@ -61,13 +56,9 @@ dotenv.config();
  * and return info about db name
  */
 if (process.env.NODE_ENV === 'production') {
-  databaseConfig.MongoDB().then((mongoose) => {
-    console.info(`${mongoose.connection.name} is connected`);
-  });
+  databaseConfig.MongoDB().catch((err) => console.log(err));
 } else {
-  databaseConfig.MongoDBTest().then((mongoose) => {
-    console.info(`Test - ${mongoose.connection.name} is connected`);
-  });
+  databaseConfig.MongoDBTest().catch((err) => console.log(err));
 }
 
 /**
