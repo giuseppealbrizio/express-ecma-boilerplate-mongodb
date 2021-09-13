@@ -1,7 +1,7 @@
 {
   "name": "express-ecma-boilerplate-mongodb",
   "description": "A minimalist express ecma boilerplate with mongodb",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": false,
   "license": "MIT",
   "bin": "src/bin/www.js",
@@ -38,13 +38,15 @@
   },
   "scripts": {
     "start": "npm run prod",
+    "prod": "cross-env NODE_ENV=production npm-run-all build server",
     "build": "npm-run-all clean transpile",
+    "clean": "rimraf build",
+    "transpile": "babel src --out-dir build",
     "server": "node ./build/bin/www",
     "dev": "cross-env NODE_ENV=development nodemon --exec babel-node src/bin/www",
-    "prod": "cross-env NODE_ENV=production npm-run-all build server",
-    "transpile": "babel src --out-dir build",
-    "clean": "rimraf build",
-    "lint": "eslint .",
+    "lint": "eslint -c './.eslintrc' --ignore-path .gitignore --ext .js .",
+    "lint-and-fix": "eslint --ignore-path .gitignore --ext .js --fix .",
+    "lint-all": "eslint .",
     "test": "cross-env NODE_ENV=test jest --verbose"
   },
   "dependencies": {
