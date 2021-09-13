@@ -1,6 +1,5 @@
 # .prettierrc or .prettierrc.yaml
 bracketSpacing: true
-jsxBracketSameLine: true
 singleQuote: true
 trailingComma: 'all'
 tabWidth: 2
