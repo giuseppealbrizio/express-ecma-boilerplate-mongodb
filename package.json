@@ -86,6 +86,7 @@
     "slugify": "^1.6.0",
     "swagger-ui-express": "^4.1.6",
     "validator": "^13.6.0",
+    "winston": "^3.3.3",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

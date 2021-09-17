@@ -7,10 +7,13 @@ import express from 'express';
 import mongoSanitize from 'express-mongo-sanitize';
 import session from 'express-session';
 import helmet from 'helmet';
-import logger from 'morgan';
+import morgan from 'morgan';
 import passport from 'passport';
 import path from 'path';
 import xss from 'xss-clean';
+
+// Import custom logger function using winston
+import logger from './utils/logger.utils';
 
 import databaseConfig from './config/database.config';
 
@@ -71,7 +74,9 @@ const app = express();
  * Middleware definition
  */
 if (process.env.NODE_ENV === 'development') {
-  app.use(logger('dev'));
+  app.use(morgan('dev', { stream: logger.stream }));
+} else {
+  app.use(morgan('combined', { stream: logger.stream }));
 }
 
 /**

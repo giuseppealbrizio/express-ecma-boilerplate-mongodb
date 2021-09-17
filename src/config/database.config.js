@@ -1,5 +1,6 @@
 import debug from 'debug';
 import mongoose from 'mongoose';
+import logger from '../utils/logger.utils';
 
 mongoose.connection.on('connected', () => {
   console.log('MongoDB Connection Established');
@@ -29,7 +30,7 @@ export default {
   MongoDB: async () => {
     try {
       await mongoose.connect(process.env.MONGO_URI);
-      console.info(`Connected to db: ${mongoose.connection.name}`);
+      logger.info(`Connected to db: ${mongoose.connection.name}`);
     } catch (error) {
       DEBUG(error);
       throw new Error(error.message);
@@ -38,7 +39,7 @@ export default {
   MongoDBTest: async () => {
     try {
       await mongoose.connect(process.env.MONGO_URI_TEST);
-      console.info(`Connected to db: ${mongoose.connection.name}`);
+      logger.info(`Connected to db: ${mongoose.connection.name}`);
     } catch (error) {
       DEBUG(error);
       throw new Error(error.message);
