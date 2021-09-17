@@ -51,7 +51,7 @@ passport.use(
       .then((user) => {
         if (user) {
           // eslint-disable-next-line no-param-reassign
-          delete user._doc.password;
+          delete user.password;
           done(null, user);
         } else {
           done(null, false);
