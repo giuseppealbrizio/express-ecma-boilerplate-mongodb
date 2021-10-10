@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import validator from 'validator';
 import crypto from 'crypto';
+import { roles } from '../config/roles.config';
 import { ApplicationError } from '../helpers/errors.helper';
 
 dotenv.config();
@@ -50,6 +51,11 @@ const UserSchema = new Schema({
       refreshToken: String,
     },
   },
+  role: {
+    type: String,
+    enum: roles,
+    default: 'user',
+  },
 });
 
 UserSchema.pre('save', async function (next) {
@@ -79,10 +85,18 @@ UserSchema.methods.comparePassword = async function (password) {
 };
 
 UserSchema.methods.generateVerificationToken = function () {
-  return jwt.sign({ id: this._id, email: this.email }, jwtKey, {
-    expiresIn: '10d',
-    // algorithm: 'RS256', // use this if set public and private keys
-  });
+  return jwt.sign(
+    {
+      id: this._id,
+      email: this.email,
+      role: this.role,
+    },
+    jwtKey,
+    {
+      expiresIn: '10d',
+      // algorithm: 'RS256', // use this if set public and private keys
+    },
+  );
 };
 
 UserSchema.methods.generatePasswordResetToken = async function () {

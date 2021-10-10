@@ -12,10 +12,20 @@ import passport from 'passport';
 import path from 'path';
 import xss from 'xss-clean';
 
-// Import custom logger function using winston
+/**
+ * Import currentUser middleware from shared library
+ */
+import { currentUser } from './middlewares/customAuthMiddleware/currentUser.middleware';
+
+/**
+ * Import custom logger function using winston
+ */
 import logger from './utils/logger.utils';
 
-import databaseConfig from './config/database.config';
+/**
+ * Import database configuration
+ */
+import mongoDbConfig from './config/mongodb.config';
 
 /**
  * Custom error handling
@@ -27,19 +37,7 @@ import errorHandler from './middlewares/errorHandler.middleware';
  * Routes import
  * @type {Router | {readonly default?: Router}}
  */
-import indexRouter from './routes/index.route';
-import authRouter from './routes/auth.route';
-import userRouter from './routes/user.route';
-import uploadRouter from './routes/upload.route';
-/**
- * Documentation Router
- */
-import swaggerRouter from './routes/swagger.route';
-/**
- * Pub/Sub Routers
- */
-import publisherRouter from './routes/publisher.route';
-import subscriberRouter from './routes/subscriber.route';
+import v1Routes from './routes/v1/index.route';
 
 /**
  * import { User } from './models/Users.model';
@@ -59,9 +57,9 @@ dotenv.config();
  * and return info about db name
  */
 if (process.env.NODE_ENV === 'production') {
-  databaseConfig.MongoDB().catch((err) => console.log(err));
+  mongoDbConfig.MongoDB().catch((err) => console.log(err));
 } else {
-  databaseConfig.MongoDBTest().catch((err) => console.log(err));
+  mongoDbConfig.MongoDBTest().catch((err) => console.log(err));
 }
 
 /**
@@ -145,6 +143,12 @@ app.use(
 );
 
 /**
+ * This middleware is responsible for bringing custom auth middleware
+ * as fallback to Passport if you don't want to use it
+ */
+app.use(currentUser);
+
+/**
  * Initialize Passport and pass the session to session storage of express
  */
 app.use(passport.initialize());
@@ -181,21 +185,7 @@ app.use((req, res, next) => {
 /**
  * Routes definitions
  */
-app.use('/api/v1/', indexRouter);
-app.use('/api/v1/auth/', authRouter);
-app.use('/api/v1/users/', userRouter);
-app.use('/api/v1/upload/', uploadRouter);
-
-/**
- * Swagger Documentation endpoint
- */
-app.use('/api/v1/docs/', swaggerRouter);
-
-/**
- * Publisher endpoint
- */
-app.use('/api/v1/publisher/', publisherRouter);
-app.use('/api/v1/subscriber/', subscriberRouter);
+app.use('/api/v1/', v1Routes);
 
 /**
  * This helper function is useful if we use express as a pure API endpoint

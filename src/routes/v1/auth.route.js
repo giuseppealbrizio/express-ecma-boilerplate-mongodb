@@ -1,11 +1,11 @@
 import express from 'express';
 import passport from 'passport';
-import '../config/passport.config';
-import '../services/passport/passport-google.service';
+import '../../config/passport.config';
+import '../../services/passport/passport-google.service';
 
-import authController from '../controllers/auth.controller';
-import authentication from '../middlewares/authenticate.middleware';
-import catchAsync from '../middlewares/catchAsync.middleware';
+import authController from '../../controllers/auth.controller';
+import authentication from '../../middlewares/authenticate.middleware';
+import catchAsync from '../../middlewares/catchAsync.middleware';
 
 const {
   login,

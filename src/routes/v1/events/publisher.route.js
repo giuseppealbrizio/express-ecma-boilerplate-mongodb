@@ -1,8 +1,8 @@
 import express from 'express';
-import publisherController from '../controllers/publisher.controller';
-import authentication from '../middlewares/authenticate.middleware';
+import publisherController from '../../../controllers/events/publisher.controller';
+import authentication from '../../../middlewares/authenticate.middleware';
 
-import catchAsync from '../middlewares/catchAsync.middleware';
+import catchAsync from '../../../middlewares/catchAsync.middleware';
 
 const { testPublisherRoute, publishTestMessage } = publisherController;
 const { authenticate } = authentication;
