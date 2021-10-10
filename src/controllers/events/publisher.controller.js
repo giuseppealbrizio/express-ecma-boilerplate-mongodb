@@ -5,12 +5,12 @@ import debug from 'debug';
  */
 import { PubSub } from '@google-cloud/pubsub';
 
-import { ApplicationError } from '../helpers/errors.helper';
+import { ApplicationError } from '../../helpers/errors.helper';
 
 /**
  * Load PubSub Custom Service
  */
-import pubSubService from '../services/pubsub/pub-sub.service';
+import pubSubService from '../../services/pubsub/pub-sub.service';
 
 const pubSubClient = new PubSub();
 

@@ -46,7 +46,7 @@ export default {
         userInCookie: cookiePayload,
         userInPassport: req.user,
         userInSession: sessionPayload,
-        // userInCustomMiddleware: req.currentUser,
+        userInCustomMiddleware: req.currentUser,
       });
     } catch (error) {
       res.status(500).json({

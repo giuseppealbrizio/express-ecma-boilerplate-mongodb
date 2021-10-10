@@ -1,11 +1,11 @@
 import express from 'express';
-import uploadController from '../controllers/upload.controller';
+import uploadController from '../../controllers/upload.controller';
 import {
   multerGCSUpload,
   multerUpload,
-} from '../middlewares/upload.middleware';
-import authentication from '../middlewares/authenticate.middleware';
-import catchAsync from '../middlewares/catchAsync.middleware';
+} from '../../middlewares/upload.middleware';
+import authentication from '../../middlewares/authenticate.middleware';
+import catchAsync from '../../middlewares/catchAsync.middleware';
 
 const { authenticate } = authentication;
 
