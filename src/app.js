@@ -20,7 +20,7 @@ import { currentUser } from './middlewares/customAuthMiddleware/currentUser.midd
 /**
  * Import custom logger function using winston
  */
-import logger from './utils/logger.utils';
+import { stream } from './utils/logger.utils';
 
 /**
  * Import database configuration
@@ -72,9 +72,9 @@ const app = express();
  * Middleware definition
  */
 if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev', { stream: logger.stream }));
+  app.use(morgan('dev', { stream }));
 } else {
-  app.use(morgan('combined', { stream: logger.stream }));
+  app.use(morgan('combined', { stream }));
 }
 
 /**
