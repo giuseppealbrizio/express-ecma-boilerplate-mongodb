@@ -1,6 +1,6 @@
 import debug from 'debug';
 import mongoose from 'mongoose';
-import logger from '../utils/logger.utils';
+import { logger } from '../utils/logger.utils';
 
 mongoose.connection.on('connected', () => {
   console.log('MongoDB Connection Established');

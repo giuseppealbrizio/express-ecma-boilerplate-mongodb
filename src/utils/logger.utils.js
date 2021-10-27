@@ -41,11 +41,9 @@ const options = {
 const logger = winston.createLogger(options);
 
 // create a stream object with a 'write' function that will be used by `morgan`
-logger.stream = {
-  // eslint-disable-next-line no-unused-vars
-  write: (message, encoding) => {
-    // use the 'info' log level so the output will be picked up by both transports (file and console)
-    logger.info(message);
+const stream = {
+  write: (message) => {
+    logger.info(message.substring(0, message.lastIndexOf('\n')));
   },
 };
 
@@ -53,4 +51,4 @@ if (process.env.NODE_ENV !== 'production') {
   logger.debug('Logging initialized at debug level');
 }
 
-export default logger;
+export { logger, stream };
