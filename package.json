@@ -87,7 +87,7 @@
     "regenerator-runtime": "^0.13.9",
     "slugify": "^1.6.1",
     "swagger-ui-express": "^4.1.6",
-    "validator": "^13.6.0",
+    "validator": "^13.7.0",
     "winston": "^3.3.3",
     "xss-clean": "^0.1.1"
   },
