@@ -64,7 +64,7 @@
     "cors": "^2.8.5",
     "debug": "^4.3.2",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
     "express-mongo-sanitize": "^2.1.0",
     "express-session": "^1.17.2",
